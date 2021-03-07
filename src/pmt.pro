@@ -10,14 +10,18 @@ UI_DIR      = build/ui
 RCC_DIR     = build/
 
 SOURCES += \
-    main.cpp \
-    pawrapper.cpp
+    PAWrapper.cpp \
+    WindowManager.cpp \
+    main.cpp
 
 HEADERS += \
-    iobase.h \
-    pawrapper.h
+    IOBase.h \
+    PAWrapper.h \
+    WindowManager.h
+
+unix: LIBS += -L$$PWD/../portaudio/lib/.libs/ -lportaudio
+linux-g++*: LIBS += -lrt -lm -lasound -pthread
+macx: LIBS += -framework CoreServices -framework CoreFoundation -framework AudioUnit -framework AudioToolbox -framework CoreAudio
 
 INCLUDEPATH += $$PWD/../portaudio/lib/.libs $$PWD/../portaudio/include
-
-macx:CONFIG(release, debug|release): LIBS += -L$$PWD/../portaudio/lib/.libs/ -lportaudio -framework CoreServices -framework CoreFoundation -framework AudioUnit -framework AudioToolbox -framework CoreAudio
-else:linux-g++*: LIBS += -L$$PWD/../portaudio/lib/.libs/ -lportaudio -lrt -lm -lasound -pthread
+DEPENDPATH += $$PWD/../portaudio/lib/.libs $$PWD/../portaudio/include
