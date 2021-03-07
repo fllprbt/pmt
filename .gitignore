@@ -1,0 +1,7 @@
+**/build/*
+**/.qmake.stash
+**/Makefile
+**/pmt.app/*
+**/pmt
+**/*.pro.user
+**/.vscode
