@@ -4,32 +4,30 @@
 #include <map>
 #include <string>
 
-#include "./iobase.h"
+#include "./IOBase.h"
 #include "./portaudio.h"
 
+/**
+ * PortAudio Abstraction. Does not support copy semantics.
+ **/
 class PAWrapper : public IOBase {
 public:
-  enum CBTypes {
-    Record,
-  };
-
   PAWrapper();
   ~PAWrapper();
-  void configure(const CBTypes &);
+
+  PAWrapper *init();
+
   // Inherited from IOBase
-  std::string startStream();
+  std::string startStream(PaStreamCallback *cb);
   std::string stopStream();
+
+  PAWrapper(PAWrapper &&other);
+  PAWrapper &operator=(PAWrapper &&other);
 
 private:
   size_t _frames;
   bool _isInit;
   PaStream *_stream;
-  std::map<CBTypes, PaStreamCallback *> _cbDictionary;
-  // maps a callback type to the pAWrapper's callback implementation
-  PaStreamCallback *_callback;
-  static PaStreamCallback record;
-
-  void init();
 };
 
 #endif // PAWRAPPER_H

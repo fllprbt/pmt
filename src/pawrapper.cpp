@@ -1,7 +1,7 @@
 #include <future>
 #include <iostream>
 
-#include "pawrapper.h"
+#include "PAWrapper.h"
 
 #define SAMPLE_RATE (44100)
 #define CHANNELS (1)
@@ -10,11 +10,9 @@
 
 typedef float SAMPLE;
 
-PAWrapper::PAWrapper() : _frames(FRAMES), _isInit(false) {
-  _cbDictionary = {{CBTypes::Record, &PAWrapper::record}};
-}
+PAWrapper::PAWrapper() : _frames(FRAMES), _isInit(false), _stream(nullptr) {}
 
-void PAWrapper::init() {
+PAWrapper *PAWrapper::init() {
   if (!_isInit) {
     if (Pa_Initialize() != paNoError) {
       throw std::runtime_error("Failed to initialize PortAudio.");
@@ -22,20 +20,13 @@ void PAWrapper::init() {
 
     _isInit = true;
   }
+
+  return this;
 }
 
-void PAWrapper::configure(const CBTypes &type) {
-  init();
-
-  switch (type) {
-  default:
-    _callback = _cbDictionary[type];
-  }
-}
-
-std::string PAWrapper::startStream() {
+std::string PAWrapper::startStream(PaStreamCallback *cb) {
   PaError openStreamError = Pa_OpenDefaultStream(
-      &_stream, CHANNELS, 0, paFloat32, SAMPLE_RATE, _frames, _callback, NULL);
+      &_stream, CHANNELS, 0, paFloat32, SAMPLE_RATE, _frames, cb, NULL);
 
   if (openStreamError != paNoError)
     return Pa_GetErrorText(openStreamError);
@@ -47,29 +38,26 @@ std::string PAWrapper::stopStream() {
   return Pa_GetErrorText(Pa_StopStream(_stream));
 }
 
-int PAWrapper::record(const void *inputBuffer, void *outputBuffer,
-                      unsigned long framesPerBuffer,
-                      const PaStreamCallbackTimeInfo *timeInfo,
-                      PaStreamCallbackFlags statusFlags, void *streamStruct) {
+PAWrapper::PAWrapper(PAWrapper &&other) {
+  this->_frames = other._frames;
+  this->_isInit = other._isInit;
+  this->_stream = other._stream;
 
-  // Prevent unused variable warning.
-  (void)outputBuffer, (void)timeInfo, (void)statusFlags, (void)streamStruct;
+  other._frames = 0;
+  other._isInit = false;
+  other._stream = nullptr;
+}
 
-  const SAMPLE *readPtr = (const SAMPLE *)inputBuffer;
-  std::vector<SAMPLE> inputContainer;
-  const size_t sz = framesPerBuffer * CHANNELS;
+PAWrapper &PAWrapper::operator=(PAWrapper &&other) {
+  if (this != &other) {
+    this->_frames = other._frames;
+    this->_isInit = other._isInit;
+    this->_stream = other._stream;
 
-  if (inputBuffer == NULL) {
-    for (unsigned int i = 0; i < sz; i++) {
-      inputContainer.push_back(SAMPLE_SILENCE);
-    }
-  } else {
-    for (unsigned int i = 0; i < sz; i++) {
-      inputContainer.push_back(*readPtr++);
-    }
+    other._frames = 0;
+    other._isInit = false;
+    other._stream = nullptr;
   }
-
-  return 0;
 }
 
 PAWrapper::~PAWrapper() {
