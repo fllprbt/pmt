@@ -19,9 +19,9 @@ HEADERS += \
     PAWrapper.h \
     WindowManager.h
 
-unix: LIBS += -L$$PWD/../portaudio/lib/.libs/ -lportaudio
+unix: LIBS += -L$$PWD/../portaudio/lib/.libs/ -L$$PWD/../aubio/build/src/ -lportaudio -laubio
 linux-g++*: LIBS += -lrt -lm -lasound -pthread
 macx: LIBS += -framework CoreServices -framework CoreFoundation -framework AudioUnit -framework AudioToolbox -framework CoreAudio
 
-INCLUDEPATH += $$PWD/../portaudio/include
-DEPENDPATH += $$PWD/../portaudio/include
+INCLUDEPATH += $$PWD/../portaudio/include $$PWD/../aubio/src
+DEPENDPATH += $$PWD/../portaudio/include $$PWD/../aubio/src
