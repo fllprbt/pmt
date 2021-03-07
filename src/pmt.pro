@@ -23,5 +23,5 @@ unix: LIBS += -L$$PWD/../portaudio/lib/.libs/ -lportaudio
 linux-g++*: LIBS += -lrt -lm -lasound -pthread
 macx: LIBS += -framework CoreServices -framework CoreFoundation -framework AudioUnit -framework AudioToolbox -framework CoreAudio
 
-INCLUDEPATH += $$PWD/../portaudio/lib/.libs $$PWD/../portaudio/include
-DEPENDPATH += $$PWD/../portaudio/lib/.libs $$PWD/../portaudio/include
+INCLUDEPATH += $$PWD/../portaudio/include
+DEPENDPATH += $$PWD/../portaudio/include
