@@ -2,6 +2,8 @@ TEMPLATE = app TARGET = pmt
 
 QT = core gui
 
+CONFIG += c++14
+
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 MOC_DIR     = build/moc
