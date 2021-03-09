@@ -1,31 +1,23 @@
 #ifndef PAWRAPPER_H
 #define PAWRAPPER_H
 
-#include <map>
-#include <string>
-
-#include "./IOBase.h"
+#include "./AudioIO.h"
 #include "./portaudio.h"
 
-/**
- * PortAudio Abstraction. Does not support copy semantics.
- **/
-class PAWrapper : public IOBase {
+class PAWrapper : public AudioIO {
 public:
   PAWrapper();
-  ~PAWrapper();
-
-  PAWrapper *init();
-
-  // Inherited from IOBase
-  std::string startStream(PaStreamCallback *cb);
-  std::string stopStream();
-
+  virtual ~PAWrapper();
   PAWrapper(PAWrapper &&other);
   PAWrapper &operator=(PAWrapper &&other);
 
+  PAWrapper *init();
+
+  // Inherited from AudioIO
+  std::string startStream(NotifyCallbackHandle);
+  std::string stopStream();
+
 private:
-  size_t _frames;
   bool _isInit;
   PaStream *_stream;
 };

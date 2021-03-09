@@ -10,12 +10,15 @@ UI_DIR      = build/ui
 RCC_DIR     = build/
 
 SOURCES += \
-    PAWrapper.cpp \
+    AudioIO.cpp \
     WindowManager.cpp \
+    PAWrapper.cpp \
     main.cpp
 
 HEADERS += \
-    IOBase.h \
+    AudioIO.h \
+    AudioIOVariant.h \
+    AudioIOVariantFactory.h \
     PAWrapper.h \
     WindowManager.h
 

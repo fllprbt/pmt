@@ -3,14 +3,29 @@
 
 #include "PAWrapper.h"
 
-#define SAMPLE_RATE (44100)
-#define CHANNELS (1)
-#define FRAMES (512)
-#define SAMPLE_SILENCE (0.0f)
+static int record(const void *inputBuffer, void *outBuffer,
+                  unsigned long framesPerBuffer,
+                  const PaStreamCallbackTimeInfo *timeInfo,
+                  PaStreamCallbackFlags statusFlags, void *notifyHandle) {
 
-typedef float SAMPLE;
+  (void)outBuffer;
+  (void)timeInfo;
+  (void)statusFlags;
 
-PAWrapper::PAWrapper() : _frames(FRAMES), _isInit(false), _stream(nullptr) {}
+  NotifyCallbackHandle notify = (NotifyCallbackHandle)notifyHandle;
+  const SAMPLE *rptr = (const SAMPLE *)inputBuffer;
+  std::vector<SAMPLE> data(framesPerBuffer);
+
+  for (unsigned long i = 0; i < framesPerBuffer; i++) {
+    data[i] = *rptr++;
+  }
+
+  notify(std::move(data));
+
+  return 0;
+}
+
+PAWrapper::PAWrapper() : _isInit(false), _stream(nullptr) { this->init(); }
 
 PAWrapper *PAWrapper::init() {
   if (!_isInit) {
@@ -24,9 +39,10 @@ PAWrapper *PAWrapper::init() {
   return this;
 }
 
-std::string PAWrapper::startStream(PaStreamCallback *cb) {
-  PaError openStreamError = Pa_OpenDefaultStream(
-      &_stream, CHANNELS, 0, paFloat32, SAMPLE_RATE, _frames, cb, NULL);
+std::string PAWrapper::startStream(NotifyCallbackHandle cbPtr) {
+  PaError openStreamError =
+      Pa_OpenDefaultStream(&_stream, _channels, 0, paFloat32, _sampleRate,
+                           _frames, record, (void *)cbPtr);
 
   if (openStreamError != paNoError)
     return Pa_GetErrorText(openStreamError);
@@ -35,29 +51,27 @@ std::string PAWrapper::startStream(PaStreamCallback *cb) {
 }
 
 std::string PAWrapper::stopStream() {
-  return Pa_GetErrorText(Pa_StopStream(_stream));
+  PaError closeStreamError = Pa_StopStream(_stream);
+
+  return Pa_GetErrorText(closeStreamError);
 }
 
-PAWrapper::PAWrapper(PAWrapper &&other) {
-  this->_frames = other._frames;
+PAWrapper::PAWrapper(PAWrapper &&other) : AudioIO(std::move(other)) {
   this->_isInit = other._isInit;
   this->_stream = other._stream;
 
-  other._frames = 0;
   other._isInit = false;
   other._stream = nullptr;
 }
 
 PAWrapper &PAWrapper::operator=(PAWrapper &&other) {
   if (this != &other) {
-    this->_frames = other._frames;
-    this->_isInit = other._isInit;
-    this->_stream = other._stream;
-
-    other._frames = 0;
+    AudioIO::operator=(std::move(other));
     other._isInit = false;
     other._stream = nullptr;
   }
+
+  return *this;
 }
 
 PAWrapper::~PAWrapper() {
