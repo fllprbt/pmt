@@ -12,16 +12,19 @@ UI_DIR      = build/ui
 RCC_DIR     = build/
 
 SOURCES += \
+    AubioWrapper.cpp \
     AudioIO.cpp \
     WindowManager.cpp \
     PAWrapper.cpp \
     main.cpp
 
 HEADERS += \
+    AubioWrapper.h \
     AudioIO.h \
     AudioIOVariant.h \
     AudioIOVariantFactory.h \
     PAWrapper.h \
+    Types.h \
     WindowManager.h
 
 unix: LIBS += -L$$PWD/../portaudio/lib/.libs/ -L$$PWD/../aubio/build/src/ -lportaudio -laubio

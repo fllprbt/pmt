@@ -1,3 +1,4 @@
+#include <AubioWrapper.h>
 #include <AudioIO.h>
 #include <AudioIOVariantFactory.h>
 #include <PAWrapper.h>
@@ -14,10 +15,17 @@ int main(int argc, char **argv) {
   audioFactory.add<AudioBackends::PortAudio, PAWrapper>();
   std::unique_ptr<AudioIO> pA = audioFactory.create(AudioBackends::PortAudio);
 
-  pA->startStream(
-      [](std::vector<SAMPLE> &&v) { std::cout << "Called" << std::endl; });
+  // Create our Pitch Detection object
+  const AubioWrapper aubio(pA->getFrames(), pA->getSampleRate());
 
-  std::this_thread::sleep_for(std::chrono::seconds(5));
+  // Write callback for when PortAudio has data
+  AudioIO::RecordCBHandle callback = [&](std::vector<SAMPLE> &&v) {
+    std::cout << aubio.detectPitch(v) << std::endl;
+  };
+
+  pA->startStream(callback);
+
+  std::this_thread::sleep_for(std::chrono::seconds(30));
 
   pA->stopStream();
 

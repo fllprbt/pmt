@@ -1,7 +1,7 @@
 #include "AudioIO.h"
 
 AudioIO::AudioIO()
-    : _sampleRate(44100), _frames(512), _inputChannels(1), _outputChannels(0),
+    : _sampleRate(44100), _frames(4096), _inputChannels(1), _outputChannels(0),
       _silence(0.0) {}
 
 AudioIO::AudioIO(AudioIO &&other) {
@@ -35,3 +35,6 @@ AudioIO &AudioIO::operator=(AudioIO &&other) {
 
   return *this;
 }
+
+size_t AudioIO::getFrames() const { return _frames * _inputChannels; };
+size_t AudioIO::getSampleRate() const { return _sampleRate; };
