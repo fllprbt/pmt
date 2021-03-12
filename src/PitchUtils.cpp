@@ -35,10 +35,10 @@ PitchUtils::FrequencyTable PitchUtils::generateFrequencyTable() const {
 
   // Start populating the frequency table starting from c3 and going lower
   double c3 = C4 / 2;
-  const size_t lowerOctavesCount = 3;
+  const size_t lowerOctavesCount = abs(LOWEST_OCTAVE);
   size_t currentOctaveIndex = lowerOctavesCount - 1; // array index
 
-  PitchUtils::FrequencyTable tmpTable(abs(LOWEST_OCTAVE) + HIGHEST_OCTAVE +
+  PitchUtils::FrequencyTable tmpTable(lowerOctavesCount + HIGHEST_OCTAVE +
                                           1, // base octave
                                       std::vector<double>(OCTAVE_NOTES));
 

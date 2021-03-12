@@ -5,7 +5,6 @@
 #include <vector>
 
 #include "Types.h"
-#include "stdint.h"
 
 class AudioIO {
 public:

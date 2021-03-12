@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include "AudioIO.h"
+class AudioIO;
 
 class VariantinatorBase {
 public:

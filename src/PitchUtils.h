@@ -24,7 +24,7 @@ public:
    * Struct with extensive information about a frequency's closest note.
    * The signs of distance metrics (frequency deviation/cents) are based on how
    * much the startFrequency is offset from the closest note e.g. for 438Hz as
-   * starting frequency, the offset from closest frequence
+   * starting frequency, the offset from 440 is -2Hz and -7.88 cents.
    */
   struct DistanceInfo {
     double startFrequency;
