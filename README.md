@@ -1,6 +1,6 @@
 # PMT (Personal Music Tutor)
 
-###### Digital Sound Processing Toolkit built with [Qt](https://github.com/qt), [PortAudio](https://github.com/PortAudio/portaudio), [Aubio](https://github.com/aubio/aubio)
+###### Digital Sound Processing Utilities built with [Qt](https://github.com/qt), [PortAudio](https://github.com/PortAudio/portaudio), [Aubio](https://github.com/aubio/aubio)
 
 ## Setup Guide (Mac & Linux)
 
@@ -14,3 +14,7 @@ Compilation requires versions of c++14 and on.
 * Build project: on project root run `qmake src/pmt.pro && make`.
 
 You are done! For Mac run `./pmt.app/Contents/MacOS/pmt` and for Linux `./pmt`
+
+## Key considerations
+
+The current version of pitch detection has not been optimized for different environments/input contexts. Thus, for best results it is advised to use the app in noise-free environments with the sound producing mediums close to the input sources. 
