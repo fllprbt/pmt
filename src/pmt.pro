@@ -14,6 +14,7 @@ RCC_DIR     = build/
 SOURCES += \
     AubioWrapper.cpp \
     AudioIO.cpp \
+    PitchUtils.cpp \
     WindowManager.cpp \
     PAWrapper.cpp \
     main.cpp
@@ -24,6 +25,7 @@ HEADERS += \
     AudioIOVariant.h \
     AudioIOVariantFactory.h \
     PAWrapper.h \
+    PitchUtils.h \
     Types.h \
     WindowManager.h
 

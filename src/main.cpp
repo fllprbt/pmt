@@ -2,6 +2,7 @@
 #include <AudioIO.h>
 #include <AudioIOVariantFactory.h>
 #include <PAWrapper.h>
+#include <PitchUtils.h>
 #include <algorithm>
 #include <chrono>
 #include <iostream>
@@ -21,6 +22,8 @@ int main(int argc, char **argv) {
   // Create our Pitch Detection object
   const AubioWrapper aubio(PITCH_WINDOW, pA->getSampleRate());
 
+  const PitchUtils pitchUtils;
+
   // Write callback for when PortAudio has data
   std::vector<SAMPLE> buffer(PITCH_WINDOW);
   AudioIO::RecordCBHandle callback = [&](std::vector<SAMPLE> &&v) {
@@ -29,12 +32,14 @@ int main(int argc, char **argv) {
       buffer[i] = buffer[i + vSize];
 
     std::move(v.begin(), v.end(), buffer.end() - vSize);
-    std::cout << aubio.detectPitch(buffer) << std::endl;
+
+    const float frequency = aubio.detectPitch(buffer);
+    const auto closest = pitchUtils.getClosestNote(frequency, true);
   };
 
   pA->startStream(callback);
 
-  std::this_thread::sleep_for(std::chrono::seconds(30));
+  std::this_thread::sleep_for(std::chrono::seconds(300));
 
   pA->stopStream();
 
