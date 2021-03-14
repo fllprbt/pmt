@@ -5,6 +5,8 @@
 #include <aubio.h>
 #include <string>
 #include <vector>
+#include <functional>
+#include <memory>
 
 class AubioWrapper {
 public:

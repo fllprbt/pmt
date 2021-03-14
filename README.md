@@ -4,7 +4,7 @@
 
 ## Setup Guide (Mac & Linux)
 
-Compilation requires versions of c++14 and on.
+Compilation requires versions of c++14 and on. There is a temporary issue with a missing public key while running `make` on aubio. As a temporary fix, please commend out the `gpg --verify` (line 30) step in `aubio/scripts/get_waf.sh` which blocks the build.
 
 * Clone repo: `git clone https://github.com/fllprbt/pmt.git --recurse-submodules && cd pmt`.
 * Install Qt5: for Mac, install through `brew install qt` or refer to [qt5 on mac](https://doc.qt.io/qt-5/macos.html). For Linux, install as ubuntu pkg `sudo apt-get install qt5-default` or refer to [qt5 on linux](https://wiki.qt.io/Install_Qt_5_on_Ubuntu). Note that in Mac you should add the path of _qmake_ to your terminal profile. For example, if you installed qt5 with brew it is in `/usr/local/opt/qt5/bin`.

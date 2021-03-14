@@ -1,5 +1,6 @@
 #include "PitchUtils.h"
 #include <iostream>
+#include <math.h>
 
 PitchUtils::DistanceInfo NULL_DISTANCE{
     0, 0, 0, 0, "UNKNOWN",
