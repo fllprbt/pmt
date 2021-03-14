@@ -1,9 +1,10 @@
 #ifndef AUDIOIO_H
 #define AUDIOIO_H
 
+#include <functional>
+#include <memory>
 #include <string>
 #include <vector>
-#include <memory>
 
 #include "Types.h"
 
