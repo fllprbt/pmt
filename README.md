@@ -2,7 +2,12 @@
 
 ###### Digital Sound Processing Utilities built with [Qt](https://github.com/qt), [PortAudio](https://github.com/PortAudio/portaudio), [Aubio](https://github.com/aubio/aubio)
 
-## Setup Guide (Mac & Linux)
+## To quickly test pitch detection on Linux (Requires Docker)
+
+`docker build . -t fll:pmt`
+`docker run -it --init --device /dev/snd fll:pmt` the init is important so that your container stops with CTRL-C
+
+## Dev Guide (Mac & Linux)
 
 Compilation requires versions of c++14 and on. There is a temporary issue with a missing public key while running `make` on aubio. As a temporary fix, please commend out the `gpg --verify` (line 30) step in `aubio/scripts/get_waf.sh` which blocks the build.
 
