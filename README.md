@@ -24,7 +24,7 @@ The current version of pitch detection has not been optimized for different envi
 ## To build the app image and fire up a container with an interactive terminal
 
 * `git clone https://github.com/fllprbt/pmt pmt && cd pmt`
-* `./scripts/run.sh`
+* `bash scripts/run.sh`
 
 If everything goes well, you will be connected to the container's terminal
 

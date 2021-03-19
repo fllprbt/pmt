@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # A script which is used as base by other scripts to ensure that proper host OS
 # dependencies and setup configuration is in place

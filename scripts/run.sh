@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # A script to fire up a docker container with the project and attach a terminal
 
