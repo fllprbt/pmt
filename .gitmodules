@@ -1,6 +1,0 @@
-[submodule "portaudio"]
-	path = portaudio
-	url = https://github.com/PortAudio/portaudio.git
-[submodule "aubio"]
-	path = aubio
-	url = https://git.aubio.org/aubio/aubio

@@ -29,10 +29,4 @@ HEADERS += \
     Types.h \
     WindowManager.h
 
-QMAKE_RPATHDIR += $$PWD/../aubio/build/src/
-unix: LIBS += -L$$PWD/../portaudio/lib/.libs/ -L$$PWD/../aubio/build/src/ -lportaudio -laubio
-linux-g++*: LIBS += -lrt -lm -lasound -pthread
-macx: LIBS += -framework CoreServices -framework CoreFoundation -framework AudioUnit -framework AudioToolbox -framework CoreAudio
-
-INCLUDEPATH += $$PWD/../portaudio/include $$PWD/../aubio/src
-DEPENDPATH += $$PWD/../portaudio/include $$PWD/../aubio/src
+linux-g++*: LIBS += -lrt -lm -lasound -pthread -lportaudio -laubio

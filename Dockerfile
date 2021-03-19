@@ -1,13 +1,13 @@
-# Currently works only for Linux (A solution to expose sound hardware to Mac is under investigation)
-FROM ubuntu:18.04
-RUN apt-get update 
-RUN apt-get install git g++ libasound-dev qt5-default make libaubio-dev portaudio19-dev -y
-RUN git clone https://github.com/fllprbt/pmt --recurse-submodules /app
-WORKDIR /app/portaudio
-RUN ./configure && make
+FROM ubuntu:18.04 AS base
+
+ARG os
+
+RUN if [ "$os" != "linux" ] && [ "$os" != "mac" ]; then exit 1 ; else exit 0 ; fi
+
+RUN apt-get update \
+    && apt-get --quiet --no-install-recommends -y install \
+    git g++ qt5-default make libaubio-dev portaudio19-dev ca-certificates
+
+RUN if [ "$os" = "mac" ] ; then apt-get --no-install-recommends -y install pulseaudio > /dev/null ; else usermod -aG audio root ; fi
+
 WORKDIR /app
-RUN qmake src/pmt.pro
-RUN make clean
-RUN make
-RUN usermod -aG audio root
-CMD ["./pmt"]

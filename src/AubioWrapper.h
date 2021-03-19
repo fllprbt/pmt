@@ -2,11 +2,11 @@
 #define AUBIOWRAPPER_H
 
 #include "Types.h"
-#include <aubio.h>
-#include <string>
-#include <vector>
+#include <aubio/aubio.h>
 #include <functional>
 #include <memory>
+#include <string>
+#include <vector>
 
 class AubioWrapper {
 public:
