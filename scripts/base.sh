@@ -28,8 +28,8 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
     echo "Checking pulseaudio installation..."
     which -s pulseaudio
     if [[ $? != 0 ]] ; then
-        echo "Please install pulseaudio: brew install pulseaudio"
-        exit 1
+        echo "Pulseaudio not found, installing..."
+        brew install pulseaudio
     fi
 
     echo "Checking pulseaudio daemon state..."
