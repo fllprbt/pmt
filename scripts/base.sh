@@ -3,6 +3,8 @@
 # A script which is used as base by other scripts to ensure that proper host OS
 # dependencies and setup configuration is in place
 
+# TODO: move Docker installation here
+
 SCRIPT_PATH="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 ROOT_PATH="$(dirname "$SCRIPT_PATH")"
 
@@ -21,8 +23,12 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
     echo "Checking brew installation..."
     which -s brew
     if [[ $? != 0 ]] ; then
-        echo "Please install brew"
-        exit 1
+        echo "Brew not found, installing..."
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        if [[ $? != 0 ]] ; then
+            echo "Brew installation failed"
+            exit 1
+        fi
     fi
 
     echo "Checking pulseaudio installation..."
