@@ -11,7 +11,7 @@
 ## Key considerations
 
 * The project uses Docker to simplify the development/build experience.
-* It currently supports Linux & Mac (>=Mojave). Has been tested on Ubuntu 18.04 VM.
+* It currently supports Linux & Mac (>=Mojave). Has been tested on Ubuntu 18.04 VM and macOS Big Sur workstation.
 
 The current version of pitch detection has not been optimized for different environments/input contexts. Thus, for best results it is advised to use the app in noise-free environments with the sound producing mediums close to the input sources. 
 
